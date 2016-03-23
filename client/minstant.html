@@ -1,0 +1,131 @@
+<head>
+  <title>minstant</title>
+</head>
+
+<body>
+</body>
+
+<!-- this is the main template used by iron:router to build the page -->
+<template name="ApplicationLayout">
+	{{> yield "header"}}
+
+	<div class="container">
+	{{> yield "main"}}
+	</div>
+</template>
+<!-- this is a welcome template-->
+<template name = "welcome_page">
+  <h1>Welcome to my Instant Messaging App</h1>
+  <p id="announce">This a message to all reviewers about what to expect in my site.<br>
+    Feedback would be appreciated on any problems found, particularly in relation to points below.</p>
+    <ul>
+      <li>The initial setup of users and passwords has been kept without change.</li>
+      <li>You should only be able to choose a user to chat with if you are logged in.</li>
+      <li>The number of messages shown is limited to 10 - older messages are removed from screen</li>
+      <li>If a user decides he does not require an emoticon it can be removed by using the red cross,
+      although a different emoticon can be chosen without use of the cross.</li>
+      <li><em>I discovered a problem with selecting emoticons when using the IE11 and Firefox browsers,
+        because of the way they use 'event.target'. I found an unsatisfactory solution by putting the same 'id'
+         in both the buttons and the images contained inside each button. If you have any better ideas let me know. </em>
+      </li>
+      <li>One improvement I would have liked to make, given time, would be to provide the facility to upload an avatar
+      when creating an account.</li>
+    </ul>
+    <a href = "/home"> GO TO MAIN SITE </a>
+</template>
+<!-- top level template for the nav bar -->
+<template name="navbar">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/home">
+        Minstant!
+      </a>
+    </div>
+    <div class="nav navbar-nav">
+    {{> loginButtons}}
+</div>
+  </div>
+</nav>
+</template>
+
+<!-- Top level template for the lobby page -->
+<template name="lobby_page">
+	{{> available_user_list}}
+</template>
+<!-- Template to show if user not logged in-->
+<template name="not_logged_in">
+  <div class="well" id = "logged_out">
+  <h2>You need to login in order to chat to other users</h2>
+</div>
+</template>
+<!-- display a list of users -->
+<template name="available_user_list">
+	<h2>If you are logged in, choose someone to chat with:</h2>
+	<div class="row">
+	{{#each users}}
+	{{> available_user}}
+	{{/each}}
+</div>
+</template>
+
+<!-- display an individual user -->
+<template name="available_user">
+	<div class="col-md-2">
+		<div class="user_avatar">
+			{{#if isMyUser _id}}
+			<div class="bg-success">{{getUsername _id}} (YOU)
+				<br/>
+				<img src="/{{profile.avatar}}" class="avatar_img">
+			</div>
+			{{else}}
+			<a href="/chat/{{_id}}">
+				{{getUsername _id}}
+				<br/>
+				<img src="/{{profile.avatar}}" class="avatar_img">
+			</a>
+			{{/if}}
+		</div>
+	</div>
+</template>
+
+
+<!-- Top level template for the chat page -->
+<template name="chat_page">
+	<h2>Type in the box below to send a message to {{chatee}}!</h2>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="well well-lg">
+			{{#each messages}}
+			  {{> chat_message}}
+			{{/each}}
+			</div>
+		</div>
+	</div>
+    <div class="row">
+		<div class="col-md-12">
+			<form class="js-send-chat">
+			<input class="input" type="text" name="chat" placeholder="type a message here...">
+      <button class="btn btn-primary">send</button>
+      <span id="emoticon"></span>
+		</form>
+    {{> emoticon_table}}
+		</div>
+	</div>
+</template>
+
+<!-- simple template that displays a message -->
+<template name="chat_message">
+  <div class="bg-info">
+    <img id = "chat_img" src = "/{{avatar}}" /><span class="text-danger">{{user}}:</span> {{msg}} {{{em}}}<!--<img id = "em" src = "/{{em}}.gif" />-->
+  </div>
+</template>
+
+<template name="emoticon_table">
+  <div id = "emoticon-table">
+    <h4 class="text-info">Add an emoticon to your message by clicking below</h4>
+  <table class="js-choose-emoticon">
+        {{{emoticons}}}
+  </table>
+</div>
+</template>

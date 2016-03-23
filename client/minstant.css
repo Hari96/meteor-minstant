@@ -1,0 +1,40 @@
+/* CSS declarations go here */
+
+.user_avatar{
+	min-height:100px;
+	text-align: center;
+}
+.avatar_img{
+	height:75px;
+}
+#chat_img {
+	width: 30px;
+	height: 30px;
+	background-color: white;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+.input {
+	width: 40%;
+}
+.text-danger {
+	font-size: 18px;
+}
+#logged_out {
+	background-color: coral;
+}
+#logged_out h2 {
+	font-size: 26px;
+}
+.bg-info {
+	margin-bottom: 5px;
+}
+#emoticon-table {
+	margin-top: 10px;
+}
+#emoticon-table button {
+  background-color: white;
+}
+#announce {
+	font-size: 1.2em;
+}
